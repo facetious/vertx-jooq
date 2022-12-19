@@ -18,7 +18,7 @@ public class RXTool {
 
     public static <T> Single<T> executeBlocking(Handler<Promise<T>> blockingCodeHandler, Vertx
         vertx) {
-        if (vertx.currentContext().isOnWorkerThread()) {
+        if (vertx.getOrCreateContext().isOnWorkerThread()) {
           Promise<T> cf = Promise.promise();
           blockingCodeHandler.handle(cf);
           return Single.just(cf.future().result());
